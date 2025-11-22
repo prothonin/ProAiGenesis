@@ -13,32 +13,34 @@ export default function ChatMessage({ role, content, timestamp }: ChatMessagePro
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+      initial={{ opacity: 0, y: 15, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className={`flex gap-4 mb-6 ${isUser ? "flex-row-reverse" : "flex-row"}`}
+      transition={{ duration: 0.4, type: "spring", stiffness: 100 }}
+      className={`flex gap-4 mb-8 ${isUser ? "flex-row-reverse" : "flex-row"}`}
       data-testid={`message-${role}`}
     >
-      <Avatar className={`w-10 h-10 ${!isUser && "ring-2 ring-primary/20"}`}>
-        <AvatarFallback className={isUser ? "bg-primary text-primary-foreground" : "bg-gradient-to-br from-purple-500 to-blue-500 text-white"}>
+      <Avatar className={`w-11 h-11 ${!isUser && "ring-2 ring-purple-500/30 shadow-lg shadow-purple-500/20"}`}>
+        <AvatarFallback className={isUser 
+          ? "bg-gradient-to-br from-blue-500 to-cyan-500 text-white font-semibold" 
+          : "bg-gradient-to-br from-purple-600 via-purple-500 to-blue-600 text-white font-semibold"}>
           {isUser ? <User className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
         </AvatarFallback>
       </Avatar>
 
       <div className={`flex flex-col ${isUser ? "items-end" : "items-start"} max-w-2xl`}>
         <div
-          className={`px-6 py-4 rounded-2xl ${
+          className={`px-7 py-5 rounded-3xl ${
             isUser
-              ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg"
-              : "backdrop-blur-md bg-card/80 border border-primary/20 shadow-md"
+              ? "bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-600 text-white shadow-xl shadow-blue-500/20"
+              : "backdrop-blur-xl bg-gradient-to-br from-card/90 to-card/70 border border-purple-500/20 shadow-xl shadow-purple-500/10"
           }`}
         >
-          <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">
+          <p className={`text-base leading-relaxed whitespace-pre-wrap ${!isUser && 'font-medium'}`}>
             {content}
           </p>
         </div>
         {timestamp && (
-          <p className="text-xs text-muted-foreground mt-1 px-2">
+          <p className="text-xs text-muted-foreground mt-2 px-3 font-medium">
             {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         )}
