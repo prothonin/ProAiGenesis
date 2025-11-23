@@ -10,11 +10,15 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
+      <div 
+        className="absolute inset-0 z-0 select-none touch-none"
+        style={{ WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
+      >
         <img
           src={heroImage}
           alt="AI Technology Background"
           className="w-full h-full object-cover"
+          draggable={false}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-background" />
       </div>
@@ -38,9 +42,10 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-7xl md:text-8xl lg:text-9xl font-black text-white mb-8 tracking-tight"
+          className="text-7xl md:text-8xl lg:text-9xl font-black text-white mb-8 tracking-tight select-none"
           style={{
             textShadow: '0 0 60px rgba(124, 58, 237, 0.5), 0 0 30px rgba(59, 130, 246, 0.3)',
+            WebkitUserSelect: 'none',
           }}
         >
           Prothon
@@ -64,7 +69,7 @@ export default function HeroSection() {
         >
           <Button
             size="lg"
-            className="px-10 py-7 text-lg font-semibold rounded-full bg-white text-purple-900 hover:bg-white/90 shadow-2xl hover:scale-105 transition-all"
+            className="px-10 py-7 text-lg font-semibold rounded-full bg-white text-purple-900 hover:bg-white/90 shadow-2xl hover:scale-105 transition-all active:scale-95"
             data-testid="button-explore-apps"
           >
             Explore Our Apps
@@ -72,7 +77,7 @@ export default function HeroSection() {
           <Button
             size="lg"
             onClick={() => setLocation("/chat")}
-            className="group px-10 py-7 text-lg font-semibold rounded-full bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 text-white shadow-2xl hover:shadow-purple-500/50 hover:scale-105 transition-all relative overflow-hidden"
+            className="group px-10 py-7 text-lg font-semibold rounded-full bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 text-white shadow-2xl hover:shadow-purple-500/50 hover:scale-105 transition-all active:scale-95 relative overflow-hidden"
             data-testid="button-try-proai"
           >
             <span className="relative z-10 flex items-center gap-2">
