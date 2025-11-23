@@ -2,8 +2,7 @@ name: Build and deploy client to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -13,31 +12,35 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
           cache: 'npm'
+          cache-dependency-path: client/package-lock.json
 
-      - name: Install client dependencies
-        working-directory: ./client
-        run: |
-          npm ci
+      - name: Install dependencies
+        working-directory: client
+        run: npm ci
 
-      - name: Build client (Vite) with repo base
-        working-directory: ./client
-        # The double-dash passes args to npm script; this sets Vite's base so assets load under /ProAiGenesis/
-        run: |
-          npm run build -- --base /ProAiGenesis/
+      - name: Build Vite client with correct base path
+        working-directory: client
+        run: npm run build -- --base=/ProAiGenesis/
 
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v1
+      - name: Upload static files for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./client/dist
+          path: client/dist
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+
+    steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
