@@ -5,7 +5,6 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
   const particleCount = variant === "hero" ? 25 : 12;
   const shapeCount = variant === "hero" ? 8 : 4;
   
-  // Generate stable random data that won't cause positioning issues
   const particleData = useMemo(
     () => Array.from({ length: particleCount }, (_, i) => ({
       left: (i * 7 + Math.random() * 15) % 100,
@@ -49,7 +48,14 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div 
+      className="absolute inset-0 overflow-hidden pointer-events-none select-none touch-none"
+      style={{ 
+        WebkitUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        willChange: 'auto'
+      }}
+    >
       {/* Particles */}
       {particleData.map((particle, i) => (
         <motion.div
@@ -59,6 +65,7 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
             background: getParticleGradient(particle.color),
             left: `${particle.left}%`,
             top: `${particle.top}%`,
+            willChange: 'transform, opacity',
           }}
           initial={{
             opacity: particle.opacity,
@@ -90,6 +97,7 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
               top: `${shape.top}%`,
               width: shape.size,
               height: shape.size,
+              willChange: 'transform, opacity',
             }}
             initial={{ rotate: 0, scale: 1, opacity: 0.8 }}
             animate={{
@@ -120,7 +128,7 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
               <svg viewBox="0 0 100 100" className="w-full h-full opacity-80">
                 <polygon
                   points="50,10 90,90 10,90"
-                  fill="url(#gradient-${i})"
+                  fill={`url(#gradient-${i})`}
                   stroke="currentColor"
                   strokeWidth="2"
                   className="text-purple-500/40"
@@ -144,4 +152,4 @@ export default function Background3D({ variant = "hero" }: { variant?: "hero" | 
       })}
     </div>
   );
-              }
+}
